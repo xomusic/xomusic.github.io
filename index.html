@@ -1,0 +1,2873 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>XoMusic | Premium Music Streaming</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="XoMusic | Premium Music Streaming" />
+    <meta name="description" content="Experience premium music streaming with XoMusic. Discover new artists, create playlists, and enjoy high-quality audio on any device." />
+    <meta name="keywords" content="music, streaming, audio, playlists, artists, albums, songs" />
+    <meta name="author" content="XoMusic" />
+    <meta name="theme-color" content="#121212" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://xomusic.github.io/" />
+    <meta property="og:title" content="XoMusic | Premium Music Streaming" />
+    <meta property="og:description" content="Experience premium music streaming with XoMusic. Discover new artists, create playlists, and enjoy high-quality audio on any device." />
+    <meta property="og:image" content="https://xomusic.github.io/img/og-image.jpg" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://xomusic.github.io/" />
+    <meta property="twitter:title" content="XoMusic | Premium Music Streaming" />
+    <meta property="twitter:description" content="Experience premium music streaming with XoMusic. Discover new artists, create playlists, and enjoy high-quality audio on any device." />
+    <meta property="twitter:image" content="https://xomusic.github.io/img/og-image.jpg" />
+    
+    <!-- Apple Mobile Web App -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="XoMusic" />
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#121212" />
+    <meta name="msapplication-TileImage" content="img/ms-icon-144x144.png" />
+    
+    <!-- Structured Data - Music Website Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MusicDigitalPublication",
+      "name": "XoMusic",
+      "alternateName": "XoMusic Premium Streaming",
+      "description": "Experience premium music streaming with XoMusic. Discover new artists, create playlists, and enjoy high-quality audio on any device.",
+      "url": "https://xomusic.github.io",
+      "logo": "https://xomusic.github.io/img/logo.png",
+      "sameAs": [
+        "https://facebook.com/xomusic",
+        "https://twitter.com/xomusic",
+        "https://instagram.com/xomusic"
+      ],
+      "potentialAction": {
+        "@type": "ListenAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://xomusic.github.io/play/{playlist_id}"
+        },
+        "expectsAcceptanceOf": {
+          "@type": "Offer",
+          "category": "Premium Subscription",
+          "price": "9.99",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Music Lovers"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@type": "Organization",
+          "name": "XoMusic",
+          "url": "https://xomusic.github.io"
+        }
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "12850",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }
+    </script>
+    
+    <!-- Fonts and Icons -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="img/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="shortcut icon" href="img/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+
+    <!-- Desktop responsive styles -->
+    <link href="css/responsive.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Poppins", "sans-serif"],
+            },
+            colors: {
+              primary: "#ff4040",
+              "primary-dark": "#e53030",
+              secondary: "#333",
+              dark: "#121212",
+              "dark-lighter": "#1e1e1e",
+              light: "#f8f9fa",
+              "light-darker": "#e9ecef",
+              "light-accent": "#f0f2f5",
+              "light-text": "#343a40",
+              "light-text-secondary": "#495057",
+            },
+            animation: {
+              "spin-slow": "spin 3s linear infinite",
+              "pulse-slow": "pulse 2s ease-in-out infinite",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Existing styles */
+      
+      /* Z-index management to prevent hidden screens showing up */
+      #app > div[id$="Screen"]:not(#playerScreen) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 0;
+        overflow-x: hidden;
+        transition: opacity 0.2s ease;
+      }
+      
+      #app > div[id$="Screen"]:not(#playerScreen).hidden {
+        display: none !important;
+        visibility: hidden !important;
+        z-index: -10 !important;
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      #playerScreen {
+        z-index: 40;
+        transition: opacity 0.3s ease;
+      }
+      
+      #miniPlayer {
+        z-index: 30;
+      }
+      
+      /* Ensure nav stays above content but below players */
+      nav.fixed {
+        z-index: 20;
+      }
+      
+      /* Ensure modals stay on top */
+      #shareModal,
+      #networkErrorPopup,
+      #sleepTimer {
+        z-index: 50;
+      }
+      
+      /* Ensure toast stays on top */
+      #toast-notification {
+        z-index: 100;
+      }
+      
+      /* Ensure loading screen is topmost */
+      #loadingScreen {
+        z-index: 60;
+      }
+      
+      /* Rest of existing styles */
+      body {
+        font-family: "Poppins", sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .dark {
+        background-color: #121212;
+        color: #f8f8f8;
+      }
+      
+      /* Existing styles continue */
+      body:not(.dark) {
+        background-color: #f8f9fa;
+        color: #343a40;
+      }
+
+      body:not(.dark) .bg-dark-lighter {
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      body:not(.dark) .text-gray-400 {
+        color: #6c757d;
+      }
+
+      body:not(.dark) .song-card,
+      body:not(.dark) .album-card {
+        background-color: #fff;
+        border: 1px solid #e9ecef;
+      }
+
+      body:not(.dark) .song-card:hover,
+      body:not(.dark) .album-card:hover {
+        background-color: #f0f2f5;
+      }
+
+      .artist-scroll,
+      .album-container {
+        scrollbar-width: none;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .artist-scroll::-webkit-scrollbar,
+      .album-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .artist-scroll {
+        padding-bottom: 10px;
+        scroll-snap-type: x proximity;
+        cursor: grab;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        overflow-x: auto;
+        display: flex;
+        gap: 1.25rem;
+        padding: 0.5rem 0.25rem;
+        margin: 0 -0.25rem;
+        scroll-padding: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .artist-scroll:active {
+        cursor: grabbing;
+        scroll-snap-type: none;
+      }
+
+      .artist-scroll > * {
+        scroll-snap-align: start;
+        scroll-snap-stop: normal;
+      }
+
+      .artist-card {
+        scroll-snap-align: start;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        min-width: 100px;
+        flex-shrink: 0;
+      }
+
+      @media (hover: hover) {
+        .artist-scroll {
+          overflow-x: auto;
+        }
+      }
+
+      @media (hover: none) {
+        .artist-scroll {
+          overflow-x: auto;
+        }
+      }
+
+      .artist-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .album-card,
+      .artist-card,
+      .song-card {
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .album-card:active,
+      .artist-card:active,
+      .song-card:active {
+        transform: scale(0.98);
+      }
+
+      .album-card:hover,
+      .song-card:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .rotate-cover {
+        animation: spin 20s linear infinite;
+      }
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .audio-visualizer {
+        gap: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .audio-visualizer span {
+        width: 2px;
+        height: 15px;
+        border-radius: 10px;
+        animation: visualizer 0.6s infinite alternate;
+        display: inline-block;
+        margin: 0 1px;
+      }
+
+      .audio-visualizer span:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+
+      .audio-visualizer span:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+
+      .audio-visualizer span:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+
+      .audio-visualizer span:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+
+      .audio-visualizer span:nth-child(5) {
+        animation-delay: 0.1s;
+      }
+
+      @keyframes visualizer {
+        from {
+          transform: scaleY(0.5);
+          opacity: 0.5;
+        }
+        to {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+      }
+
+      .auth-input {
+        @apply w-full bg-dark-lighter/40 border border-gray-700/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-primary/70 focus:border-primary/50 transition-all duration-300;
+        backdrop-filter: blur(8px);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+        letter-spacing: 0.02rem;
+        height: 56px;
+        padding: 16px 16px 16px 54px;
+        color: rgba(255, 255, 255, 0.9);
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      .auth-input:focus {
+        animation: pulse-border 1.5s ease-in-out infinite;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2),
+          inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        letter-spacing: 0.03rem;
+        outline: none;
+        color: black;
+      }
+
+      body:not(.dark) .auth-input {
+        color: rgba(51, 51, 51, 0.9);
+        background-color: rgba(255, 255, 255, 0.9);
+        border-color: rgba(220, 220, 220, 0.5);
+      }
+
+      body:not(.dark) .auth-input::placeholder {
+        color: rgba(70, 70, 70, 0.6);
+      }
+
+      @media (max-width: 640px) {
+        .auth-input {
+          height: 52px;
+          padding: 14px 14px 14px 44px;
+          font-size: 0.9rem;
+        }
+
+        .input-icon {
+          left: 18px;
+          font-size: 1.1rem;
+        }
+      }
+
+      .auth-input::placeholder {
+        @apply text-gray-400;
+        opacity: 0.7;
+        letter-spacing: 0.01em;
+        font-size: 0.9em;
+        font-weight: 300;
+        color: rgba(80, 80, 80, 0.75);
+        transition: all 0.3s ease;
+        transform: translateY(0);
+      }
+
+      .auth-input:focus::placeholder {
+        @apply text-gray-300;
+        opacity: 0.4;
+        transform: translateX(3px);
+        transition: all 0.3s ease;
+      }
+
+      .input-wrapper {
+        position: relative;
+        transition: all 0.3s ease;
+        margin-bottom: 20px;
+        margin-right: auto;
+        width: 100%;
+      }
+
+      .input-wrapper:focus-within::after {
+        content: "";
+        position: absolute;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: linear-gradient(
+          to right,
+          rgba(255, 64, 64, 0.7),
+          transparent
+        );
+        transform: scaleX(1);
+        transition: transform 0.3s ease;
+      }
+
+      .input-icon {
+        @apply text-xl text-gray-400 transition-all duration-300;
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: black;
+      }
+
+      .auth-input:focus + .input-icon,
+      .group:focus-within .input-icon {
+        @apply text-primary;
+        transform: translateY(-1px);
+        text-shadow: 0 0 10px rgba(255, 64, 64, 0.5);
+      }
+
+      .auth-btn,
+      .create-account-btn {
+        @apply w-full text-white font-semibold transition-all duration-300 transform hover:scale-[0.99] active:scale-[0.97] flex items-center justify-center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 15px -3px rgba(255, 64, 64, 0.4);
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        background-size: 200% auto;
+        background-image: linear-gradient(
+          to right,
+          #ff4040 0%,
+          #ff5a5a 50%,
+          #ff4040 100%
+        );
+        transition: all 0.5s;
+        height: 56px;
+        border-radius: 12px;
+        margin-top: 24px;
+        font-size: 1rem;
+        letter-spacing: 0.03em;
+      }
+
+      .auth-btn::after,
+      .create-account-btn::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          to bottom right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.1) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        transform: rotate(45deg);
+        transition: all 0.5s;
+        opacity: 0;
+      }
+
+      .auth-btn:hover::after,
+      .create-account-btn:hover::after {
+        animation: shine 1.5s ease-in-out;
+        opacity: 1;
+      }
+
+      .auth-btn:hover,
+      .create-account-btn:hover {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        background-position: right center;
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 6px 20px -5px rgba(255, 64, 64, 0.5);
+      }
+
+      .auth-btn:hover i,
+      .create-account-btn:hover i {
+        transform: translateX(3px);
+        transition: transform 0.3s ease;
+      }
+
+      .auth-card {
+        @apply bg-secondary/75 backdrop-blur-xl shadow-xl rounded-2xl;
+        box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5),
+          0 0 50px -15px rgba(255, 64, 64, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        position: relative;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+        animation: float 6s ease-in-out infinite;
+        padding: 36px 32px;
+        width: 90%;
+        max-width: 420px;
+        margin: 0 auto;
+        max-height: 90vh;
+        min-height: fit-content;
+      }
+
+      @media (max-width: 640px) {
+        .auth-card {
+          padding: 28px 22px;
+          width: 95%;
+          max-width: 380px;
+          max-height: 95vh;
+        }
+
+        h1.text-3xl {
+          font-size: 1.75rem;
+        }
+
+        .auth-form-group {
+          margin-bottom: 18px;
+        }
+
+        .auth-btn,
+        .create-account-btn {
+          height: 52px;
+        }
+      }
+
+      .auth-card .card-content {
+        max-width: 100%;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 480px) {
+        .auth-card .card-content {
+          max-width: 100%;
+        }
+      }
+
+      .auth-card::before,
+      .auth-card::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        border-radius: inherit;
+        pointer-events: none;
+      }
+
+      .auth-card::before {
+        z-index: -1;
+        background: radial-gradient(
+          circle at top right,
+          rgba(255, 64, 64, 0.15),
+          transparent 50%
+        );
+      }
+
+      .auth-card::after {
+        z-index: -2;
+        background: radial-gradient(
+          circle at bottom left,
+          rgba(255, 64, 64, 0.15),
+          transparent 50%
+        );
+        transform: translateZ(-10px);
+      }
+
+      .auth-card .blur-circle {
+        filter: blur(60px);
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .scale-in {
+        animation: scaleIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95) translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      .auth-input-label {
+        @apply text-sm font-medium text-gray-300 transition-all duration-300;
+        position: relative;
+        display: inline-block;
+        letter-spacing: 0.03em;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.7);
+        width: auto;
+        margin-left: 0;
+        margin-bottom: 10px;
+      }
+
+      body:not(.dark) .auth-input-label {
+        color: rgba(80, 80, 80, 0.9);
+      }
+
+      .auth-input-label::after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          var(--tw-color-primary),
+          transparent
+        );
+        transition: width 0.3s ease;
+      }
+
+      .input-wrapper:focus-within + .auth-input-label::after,
+      .input-wrapper:focus-within .auth-input-label::after {
+        width: 100%;
+      }
+
+      .auth-link {
+        position: relative;
+      }
+
+      .auth-link::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        bottom: -2px;
+        left: 0;
+        background: linear-gradient(
+          to right,
+          var(--tw-color-primary),
+          transparent
+        );
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+      }
+
+      .auth-link:hover::after {
+        transform: scaleX(1);
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      /* Audio Visualizer Animation */
+      .audio-visualizer {
+        gap: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .audio-visualizer span {
+        width: 2px;
+        height: 15px;
+        border-radius: 10px;
+        animation: visualizer 0.6s infinite alternate;
+        display: inline-block;
+        margin: 0 1px;
+      }
+
+      .audio-visualizer span:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+
+      .audio-visualizer span:nth-child(2) {
+        animation-delay: 0.3s;
+      }
+
+      .audio-visualizer span:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+
+      .audio-visualizer span:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+
+      .audio-visualizer span:nth-child(5) {
+        animation-delay: 0.1s;
+      }
+
+      @keyframes visualizer {
+        from {
+          transform: scaleY(0.5);
+          opacity: 0.5;
+        }
+        to {
+          transform: scaleY(1);
+          opacity: 1;
+        }
+      }
+
+      /* Cover Rotation Animation */
+      .rotate-cover {
+        animation: rotate 20s linear infinite;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Notification animations */
+      .animate-fade-in {
+        animation: fadeIn 0.5s ease-in-out forwards;
+      }
+
+      .animate-fade-out {
+        animation: fadeOut 0.5s ease-in-out forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translate(-50%, -20px);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, 0);
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+          transform: translate(-50%, 0);
+        }
+        to {
+          opacity: 0;
+          transform: translate(-50%, -20px);
+        }
+      }
+
+      /* Share modal animations */
+      #shareModal {
+        opacity: 0;
+        animation: fadeModalIn 0.3s ease-out forwards;
+      }
+      
+      #shareModal.hidden {
+        animation: fadeModalOut 0.3s ease-in forwards;
+      }
+      
+      #shareModal .scale-in {
+        opacity: 0;
+        transform: scale(0.95);
+        animation: scaleIn 0.3s ease-out 0.1s forwards;
+      }
+      
+      @keyframes fadeModalIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      
+      @keyframes fadeModalOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+      
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      
+      .share-option {
+        transition: transform 0.2s ease;
+      }
+      
+      .share-option:hover {
+        transform: translateY(-3px);
+      }
+      
+      .share-option:active {
+        transform: scale(0.95);
+      }
+
+      /* For responsive grid layout */
+      @media (min-width: 640px) {
+        .grid-cols-2 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      /* Light mode enhancements */
+      body:not(.dark) .mini-player {
+        background-color: #fff;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      body:not(.dark) .bg-dark-lighter {
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      body:not(.dark) .artist-card .rounded-full {
+        border-color: #e9ecef !important;
+      }
+
+      body:not(.dark) .artist-card:hover .rounded-full {
+        border-color: var(--tw-color-primary) !important;
+        box-shadow: 0 5px 15px rgba(255, 64, 64, 0.15);
+      }
+
+      /* Card hover effects */
+      .artist-card {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+
+      .artist-card:hover {
+        transform: translateY(-5px);
+      }
+
+      /* Active scrolling class */
+      .artist-scroll.active {
+        cursor: grabbing;
+      }
+
+      /* Add glow effect to playing song */
+      .audio-visualizer.active span {
+        box-shadow: 0 0 5px var(--tw-color-primary);
+      }
+
+      /* Light mode player styles */
+      body:not(.dark) #playerScreen {
+        background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+      }
+
+      body:not(.dark) #progressBar {
+        background-color: #ff4040;
+      }
+
+      body:not(.dark) .song-card.playing,
+      body:not(.dark) .song-card.playing:hover {
+        background-color: rgba(255, 64, 64, 0.05);
+        border-left: 3px solid var(--tw-color-primary);
+      }
+
+      .create-account-btn {
+        @apply w-full bg-gradient-to-r from-primary to-primary-dark text-white p-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-[0.99] active:scale-[0.97] flex items-center justify-center mt-7;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 4px 15px -3px rgba(255, 64, 64, 0.4);
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .create-account-btn::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          to bottom right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.1) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        transform: rotate(45deg);
+        transition: all 0.5s;
+        opacity: 0;
+      }
+
+      .create-account-btn:hover::after {
+        animation: shine 1.5s ease-in-out;
+        opacity: 1;
+      }
+
+      @keyframes shine {
+        0% {
+          left: -100%;
+          opacity: 0;
+        }
+        20% {
+          opacity: 0.2;
+        }
+        100% {
+          left: 100%;
+          opacity: 0;
+        }
+      }
+
+      @keyframes pulse-border {
+        0%,
+        100% {
+          border-color: rgba(255, 64, 64, 0.5);
+        }
+        50% {
+          border-color: rgba(255, 64, 64, 0.8);
+        }
+      }
+
+      /* Input focus effect */
+      .focus-effect {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .focus-effect::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(
+          to right,
+          var(--tw-color-primary),
+          transparent
+        );
+        transition: width 0.3s ease;
+      }
+
+      .auth-input:focus ~ .focus-effect::after {
+        width: 100%;
+      }
+
+      /* Improved placeholder animation */
+      @keyframes placeholderShift {
+        0% {
+          opacity: 0.7;
+          transform: translateY(0);
+        }
+        50% {
+          opacity: 0.4;
+          transform: translateY(-1px);
+        }
+        100% {
+          opacity: 0.7;
+          transform: translateY(0);
+        }
+      }
+
+      .auth-input:focus::placeholder {
+        animation: placeholderShift 1.5s infinite;
+      }
+
+      /* Form validation visual helpers */
+      .auth-input:not(:placeholder-shown):valid {
+        border-color: rgba(72, 187, 120, 0.5);
+      }
+
+      .auth-input:not(:placeholder-shown):valid + .input-icon {
+        color: rgba(72, 187, 120, 0.8);
+      }
+
+      /* Additional subtle animations */
+      @keyframes subtle-bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-2px);
+        }
+      }
+
+      .auth-btn i,
+      .create-account-btn i {
+        animation: subtle-bounce 2s ease infinite;
+      }
+
+      .auth-input-wrapper {
+        margin-bottom: 20px;
+      }
+
+      /* Checkbox styling */
+      .custom-checkbox {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 4px;
+        border: 1px solid rgba(128, 128, 128, 0.5);
+        background-color: rgba(30, 30, 30, 0.5);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        position: relative;
+        margin-right: 10px;
+        outline: none;
+      }
+
+      .custom-checkbox:checked {
+        background-color: var(--tw-color-primary);
+        border-color: var(--tw-color-primary);
+      }
+
+      .custom-checkbox:checked::after {
+        content: "";
+        display: block;
+        width: 6px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+        position: absolute;
+        top: 2px;
+      }
+
+      .custom-checkbox:focus {
+        box-shadow: 0 0 0 2px rgba(255, 64, 64, 0.3);
+        outline: none;
+      }
+
+      body:not(.dark) .custom-checkbox {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-color: rgba(180, 180, 180, 0.5);
+      }
+
+      .checkbox-label {
+        font-size: 14px;
+        color: rgba(200, 200, 200, 0.9);
+        margin-left: 8px;
+        cursor: pointer;
+      }
+
+      body:not(.dark) .checkbox-label {
+        color: rgba(80, 80, 80, 0.9);
+      }
+
+      /* Form spacing */
+      .auth-form-group {
+        margin-bottom: 24px;
+      }
+
+      .logo-container {
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        background: linear-gradient(
+          145deg,
+          rgba(255, 64, 64, 0.9),
+          rgba(255, 32, 32, 0.8)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        box-shadow: 0 8px 20px -5px rgba(255, 64, 64, 0.6);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .logo-container::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.2),
+          rgba(255, 255, 255, 0)
+        );
+        border-radius: 50%;
+      }
+
+      .logo-container i {
+        font-size: 40px;
+        color: white;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 2;
+      }
+
+      @media (max-width: 640px) {
+        .logo-container {
+          width: 76px;
+          height: 76px;
+          margin-bottom: 20px;
+        }
+
+        .logo-container i {
+          font-size: 34px;
+        }
+      }
+
+      /* Professional background colors for player screens */
+      #playerScreen {
+        background: linear-gradient(to bottom, #1a1a2e, #16213e, #0f3460);
+      }
+
+      #miniPlayer .bg-dark-lighter {
+        background: linear-gradient(to right, #1a1a2e, #16213e);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      body:not(.dark) #playerScreen {
+        background: linear-gradient(to bottom, #f8f9fa, #e9ecef, #dee2e6);
+      }
+
+      body:not(.dark) #miniPlayer .bg-dark-lighter {
+        background: linear-gradient(to right, #ffffff, #f8f9fa);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      body:not(.dark) #miniPlayer div.mx-4 {
+        background: linear-gradient(to right, #ffffff, #f8f9fa) !important;
+        border: 1px solid rgba(0, 0, 0, 0.05) !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+      }
+
+      /* Desktop responsive design */
+      @media (min-width: 1024px) {
+        .auth-card {
+          max-width: 460px;
+          padding: 40px 50px;
+        }
+
+        .logo-container {
+          width: 100px;
+          height: 100px;
+          margin-bottom: 30px;
+        }
+
+        .logo-container i {
+          font-size: 48px;
+        }
+
+        h1.text-3xl {
+          font-size: 2.25rem;
+        }
+
+        .auth-btn,
+        .create-account-btn {
+          height: 60px;
+          font-size: 1.1rem;
+        }
+
+        .input-icon {
+          font-size: 1.5rem;
+        }
+
+        .auth-input {
+          height: 60px;
+          font-size: 1rem;
+        }
+
+        #playerScreen .w-64 {
+          width: 320px;
+          height: 320px;
+        }
+
+        #miniPlayer div.mx-4 {
+          max-width: 800px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+
+      /* Larger desktop screens */
+      @media (min-width: 1440px) {
+        .auth-card {
+          max-width: 500px;
+        }
+
+        #playerScreen .w-64 {
+          width: 380px;
+          height: 380px;
+        }
+
+        #miniPlayer div.mx-4 {
+          max-width: 1000px;
+        }
+
+        #app {
+          max-width: 1200px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+
+      /* Landscape mode adjustments */
+      @media (max-width: 1023px) and (orientation: landscape) {
+        .auth-card {
+          padding: 25px;
+          max-height: 85vh;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .auth-card .card-content {
+          overflow-y: auto;
+          max-height: 80vh;
+          padding-right: 5px;
+        }
+
+        .logo-container {
+          width: 70px;
+          height: 70px;
+          margin-bottom: 15px;
+        }
+
+        .text-center.mb-10 {
+          margin-bottom: 15px;
+        }
+
+        .auth-form-group {
+          margin-bottom: 12px;
+        }
+
+        #playerScreen .w-64 {
+          width: 160px;
+          height: 160px;
+        }
+
+        #playerScreen .px-4.flex {
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+      }
+
+      /* Tablet responsive design */
+      @media (min-width: 768px) and (max-width: 1023px) {
+        .auth-card {
+          max-width: 440px;
+          padding: 32px 40px;
+        }
+
+        #app {
+          max-width: 90%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        #miniPlayer div.mx-4 {
+          max-width: 90%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        #playerScreen .w-64 {
+          width: 240px;
+          height: 240px;
+        }
+      }
+
+      /* Responsive grid layouts for featured playlists */
+      /* Mobile (default) - 2 columns */
+      #featuredAlbums,
+      #allPlaylists {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .album-card {
+        background-color: rgba(40, 44, 52, 0.8);
+        border-radius: 0.5rem;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .album-card .aspect-square {
+        width: 100%;
+        padding-bottom: 100%; /* Creates a square aspect ratio */
+        position: relative;
+      }
+
+      .album-card .aspect-square img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .album-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        background-color: rgba(62, 84, 172, 0.3);
+      }
+
+      /* Tablet - 3 columns */
+      @media (min-width: 768px) and (max-width: 1023px) {
+        #featuredAlbums,
+        #allPlaylists {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 1.25rem;
+        }
+      }
+
+      /* Desktop - 4 columns */
+      @media (min-width: 1024px) and (max-width: 1439px) {
+        #featuredAlbums,
+        #allPlaylists {
+          grid-template-columns: repeat(5, minmax(0, 1fr));
+          gap: 1.5rem;
+          width: 50%;
+          height: 50%;
+        }
+      }
+
+      /* Large desktop - 6 columns */
+      @media (min-width: 1440px) {
+        #featuredAlbums,
+        #allPlaylists {
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+          gap: 1.5rem;
+          margin-bottom: 2rem;
+        }
+
+        .album-card {
+          border-radius: 0.75rem;
+        }
+
+        .album-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      /* Search results grid responsive behavior */
+      .search-albums-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      @media (min-width: 768px) and (max-width: 1023px) {
+        .search-albums-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 1024px) and (max-width: 1439px) {
+        .search-albums-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 1440px) {
+        .search-albums-grid {
+          grid-template-columns: repeat(6, minmax(0, 1fr));
+        }
+      }
+
+      /* Light theme bottom navigation and button colors */
+      body:not(.dark) nav .text-primary {
+        color: #ff4040;
+      }
+      body:not(.light) nav .text-primary {
+        color: #ff4040;
+      }
+
+      body:not(.dark) #profileButton {
+        background-color: #f0f2f5;
+        color: #343a40;
+      }
+
+      body:not(.dark) #profileButton:hover {
+        background-color: #e9ecef;
+      }
+
+      body:not(.dark) #progressBar {
+        background-color: #ff4040;
+      }
+
+      /* Loading screen styles */
+      #loadingScreen {
+        background: linear-gradient(135deg, #121212, #1e1e1e, #282828);
+      }
+
+      body:not(.dark) #loadingScreen {
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef, #dee2e6);
+      }
+
+      body:not(.dark) #loadingScreen h2 {
+        background-image: linear-gradient(to right, #333, #555);
+      }
+
+      body:not(.dark) #loadingScreen p {
+        color: #6c757d;
+      }
+
+      #loadingScreen .logo-container {
+        width: 88px;
+        height: 88px;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(0.95);
+        }
+      }
+
+      /* Network error popup animations */
+      .backdrop-blur-sm {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+      
+      #networkErrorPopup {
+        opacity: 0;
+        animation: networkPopupFadeIn 0.4s ease-out forwards;
+      }
+      
+      #networkErrorPopup.animate-fade-out {
+        animation: networkPopupFadeOut 0.4s ease-in forwards;
+      }
+      
+      #networkErrorPopup .bg-dark-lighter {
+        transform: scale(0.95);
+        opacity: 0;
+        animation: popupContentIn 0.3s ease-out 0.1s forwards;
+      }
+      
+      @keyframes networkPopupFadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      
+      @keyframes networkPopupFadeOut {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+      
+      @keyframes popupContentIn {
+        from {
+          transform: scale(0.95);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Favorites animations and styles */
+      .favorite-btn:hover {
+        transform: scale(1.2);
+      }
+      
+      .favorite-album-btn:hover, 
+      .favorite-artist-btn:hover {
+        transform: scale(1.1);
+      }
+      
+      .favorite-btn.text-primary,
+      .favorite-album-btn.text-primary,
+      .favorite-artist-btn.text-primary {
+        animation: heart-beat 0.4s ease;
+      }
+      
+      @keyframes heart-beat {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.3); }
+        100% { transform: scale(1); }
+      }
+      
+      /* Toast notification styles */
+      #toast-notification {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translate(-50%, 20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+      
+      #toast-notification.opacity-100 {
+        transform: translate(-50%, 0);
+      }
+      
+      /* Fade-in/out animations for favorites */
+      .animate-fade-in {
+        animation: fadeIn 0.3s forwards;
+      }
+      
+      .animate-fade-out {
+        animation: fadeOut 0.3s forwards;
+      }
+      
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      
+      @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(10px); }
+      }
+
+      /* Fix for player screen */
+      #playerScreen.hidden {
+        display: none !important;
+      }
+      
+      /* Ensure smooth transition when toggling player */
+      #playerScreen {
+        transition: opacity 0.3s ease;
+        will-change: opacity;
+        background: linear-gradient(to bottom, #1a1a2e, #16213e, #0f3460);
+      }
+      
+      #miniPlayer {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        will-change: transform, opacity;
+      }
+      
+      /* Proper handling for touch devices to prevent ghost clicks */
+      @media (hover: none) {
+        #app > div:not(.hidden) {
+          touch-action: manipulation;
+        }
+      }
+      
+      /* Ensure content doesn't bleed through */
+      #app {
+        position: relative;
+        isolation: isolate;
+        min-height: 100vh;
+      }
+
+      /* Mini player transitions */
+      #miniPlayer {
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      #miniPlayer.hidden {
+        transform: translateY(20px);
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body class="dark bg-dark text-white">
+    <!-- Add current share item variable -->
+    <script>
+      // Global variable to store the current shared item
+      let currentShareItem = null;
+    </script>
+    
+    <!-- Loading Screen (Initially Shown) -->
+    <div
+      id="loadingScreen"
+      class="fixed inset-0 z-[60] flex flex-col items-center justify-center bg-gradient-to-br from-dark via-dark to-gray-900 transition-opacity duration-500"
+    >
+      <div class="logo-container scale-in">
+        <i class="bx bx-music"></i>
+      </div>
+      <h2
+        class="mt-6 text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300"
+      >
+        XoMusic
+      </h2>
+      <p class="text-gray-400 text-md mt-2">Premium Music Experience</p>
+      <div class="mt-8 flex space-x-1.5">
+        <span
+          class="w-3 h-3 rounded-full bg-primary animate-pulse"
+          style="animation-delay: 0s"
+        ></span>
+        <span
+          class="w-3 h-3 rounded-full bg-primary animate-pulse"
+          style="animation-delay: 0.2s"
+        ></span>
+        <span
+          class="w-3 h-3 rounded-full bg-primary animate-pulse"
+          style="animation-delay: 0.4s"
+        ></span>
+      </div>
+    </div>
+
+    <!-- Login Screen (Initially Hidden) -->
+    <div
+      id="loginScreen"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-gradient-to-br from-dark via-dark to-gray-900 px-2 py-4 overflow-auto min-h-screen"
+    >
+      <div class="auth-card scale-in relative my-4">
+        <div
+          class="absolute -right-20 -top-20 w-40 h-40 bg-primary/30 rounded-full blur-circle"
+        ></div>
+        <div
+          class="absolute -left-20 -bottom-20 w-40 h-40 bg-primary/30 rounded-full blur-circle"
+        ></div>
+        <div
+          class="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-transparent via-transparent to-primary/5 rounded-2xl pointer-events-none"
+        ></div>
+        <div class="relative z-10 card-content">
+          <div class="text-center mb-10">
+            <div class="flex justify-center items-center mb-7">
+              <div class="logo-container">
+                <i class="bx bx-music"></i>
+              </div>
+            </div>
+            <h1
+              class="text-3xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300"
+            >
+              Welcome Back
+            </h1>
+            <p class="text-gray-400 text-md">
+              Your premium music experience awaits
+            </p>
+          </div>
+          <div
+            id="loginError"
+            class="hidden bg-red-500/20 border border-red-500/50 p-3 rounded-xl mb-6 text-sm"
+          >
+            <div class="flex items-start">
+              <i class="bx bx-error-circle text-xl text-red-500 mr-2"></i>
+              <span class="error-message">Error message will appear here</span>
+            </div>
+          </div>
+          <form id="loginForm" class="space-y-6">
+            <div class="auth-form-group">
+              <label for="loginEmail" class="auth-input-label block">
+                Email Address
+              </label>
+              <div class="relative group input-wrapper">
+                <input
+                  type="email"
+                  id="loginEmail"
+                  placeholder="johndoe@example.com"
+                  class="auth-input"
+                  autocomplete="email"
+                />
+                <i class="bx bx-envelope absolute left-4 top-4 input-icon"></i>
+                <div class="focus-effect"></div>
+              </div>
+            </div>
+            <div class="auth-form-group">
+              <div class="flex items-center justify-between mb-2">
+                <label for="loginPassword" class="auth-input-label">
+                  Password
+                </label>
+                <a
+                  href="#"
+                  class="text-xs text-primary hover:text-primary-dark transition-all auth-link"
+                >
+                  Forgot password?
+                </a>
+              </div>
+              <div class="relative group input-wrapper">
+                <input
+                  type="password"
+                  id="loginPassword"
+                  placeholder="••••••••••"
+                  class="auth-input"
+                  autocomplete="current-password"
+                />
+                <i class="bx bx-lock-alt absolute left-4 top-4 input-icon"></i>
+                <div class="focus-effect"></div>
+              </div>
+            </div>
+            <div class="auth-form-group">
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="rememberMe"
+                  class="custom-checkbox"
+                />
+                <label for="rememberMe" class="checkbox-label">
+                  Remember me
+                </label>
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="auth-btn hover:shadow-lg hover:shadow-primary/20 transition-all w-full"
+            >
+              <span class="mr-2">Sign In</span>
+              <i class="bx bx-right-arrow-alt text-xl"></i>
+            </button>
+          </form>
+          <div class="flex items-center my-7">
+            <div class="flex-grow h-px bg-gray-700/50"></div>
+            <div class="mx-4 text-sm text-gray-400">OR</div>
+            <div class="flex-grow h-px bg-gray-700/50"></div>
+          </div>
+          <button
+            id="googleSignIn"
+            class="w-full flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-xl font-medium transition duration-300 transform hover:scale-[0.99] active:scale-[0.97] shadow-md"
+          >
+            <i class="bx bxl-google text-xl text-red-500"></i>
+            <span>Continue with Google</span>
+          </button>
+          <p class="text-center mt-8 text-gray-400 text-sm">
+            Don't have an account?
+            <a
+              href="#"
+              id="showSignup"
+              class="text-primary hover:text-primary-dark font-medium transition duration-300 auth-link ml-1"
+              >Create an Account</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sign Up Screen (Initially Hidden) -->
+    <div
+      id="signupScreen"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-gradient-to-br from-dark via-dark to-gray-900 px-2 py-4 overflow-auto min-h-screen"
+    >
+      <div class="auth-card scale-in relative my-4">
+        <div
+          class="absolute -right-20 -top-20 w-40 h-40 bg-primary/30 rounded-full blur-circle"
+        ></div>
+        <div
+          class="absolute -left-20 -bottom-20 w-40 h-40 bg-primary/30 rounded-full blur-circle"
+        ></div>
+        <div
+          class="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-transparent via-transparent to-primary/5 rounded-2xl pointer-events-none"
+        ></div>
+        <div class="relative z-10 card-content">
+          <div class="text-center mb-10">
+            <div class="flex justify-center items-center mb-7">
+              <div class="logo-container">
+                <i class="bx bx-music"></i>
+              </div>
+            </div>
+            <h1
+              class="text-3xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300"
+            >
+              Join XoMusic
+            </h1>
+            <p class="text-gray-400 text-md">
+              Unlock unlimited music streaming today
+            </p>
+          </div>
+          <div
+            id="signupError"
+            class="hidden bg-red-500/20 border border-red-500/50 p-3 rounded-xl mb-6 text-sm"
+          >
+            <div class="flex items-start">
+              <i class="bx bx-error-circle text-xl text-red-500 mr-2"></i>
+              <span class="error-message">Error message will appear here</span>
+            </div>
+          </div>
+          <form id="signupForm" class="space-y-6">
+            <div class="auth-form-group">
+              <label for="signupUsername" class="auth-input-label block">
+                Username
+              </label>
+              <div class="relative group input-wrapper">
+                <input
+                  type="text"
+                  id="signupUsername"
+                  placeholder="johnmusic"
+                  class="auth-input"
+                  autocomplete="username"
+                />
+                <i class="bx bx-user absolute left-4 top-4 input-icon"></i>
+                <div class="focus-effect"></div>
+              </div>
+            </div>
+            <div class="auth-form-group">
+              <label for="signupEmail" class="auth-input-label block">
+                Email Address
+              </label>
+              <div class="relative group input-wrapper">
+                <input
+                  type="email"
+                  id="signupEmail"
+                  placeholder="johndoe@example.com"
+                  class="auth-input"
+                  autocomplete="email"
+                />
+                <i class="bx bx-envelope absolute left-4 top-4 input-icon"></i>
+                <div class="focus-effect"></div>
+              </div>
+            </div>
+            <div class="auth-form-group">
+              <label for="signupPassword" class="auth-input-label block">
+                Password
+              </label>
+              <div class="relative group input-wrapper">
+                <input
+                  type="password"
+                  id="signupPassword"
+                  placeholder="••••••••••"
+                  class="auth-input"
+                  autocomplete="new-password"
+                />
+                <i class="bx bx-lock-alt absolute left-4 top-4 input-icon"></i>
+                <div class="focus-effect"></div>
+              </div>
+              <p class="text-xs text-gray-500 mt-2">
+                Must contain at least 6 characters
+              </p>
+            </div>
+            <div class="auth-form-group">
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="agreeTerms"
+                  class="custom-checkbox"
+                />
+                <label for="agreeTerms" class="checkbox-label">
+                  I agree to the
+                  <a
+                    href="#"
+                    class="text-primary hover:text-primary-dark auth-link"
+                    >Terms of Service</a
+                  >
+                </label>
+              </div>
+            </div>
+            <button type="submit" class="create-account-btn w-full">
+              <span class="mr-2">Create Account</span>
+              <i class="bx bx-user-plus text-xl"></i>
+            </button>
+          </form>
+          <p class="text-center mt-8 text-gray-400 text-sm">
+            Already have an account?
+            <a
+              href="#"
+              id="showLogin"
+              class="text-primary hover:text-primary-dark font-medium transition duration-300 auth-link ml-1"
+              >Sign In</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main App (Initially Hidden) -->
+    <div id="app" class="hidden pb-[140px] relative">
+      <!-- Home Screen -->
+      <div id="homeScreen" class="relative z-0 pb-24">
+        <!-- Header -->
+        <header
+          class="px-4 py-5 flex items-center justify-between dark-lighter"
+        >
+          <div class="flex items-center cursor-pointer" id="userProfileArea">
+            <div
+              class="w-12 h-12 overflow-hidden rounded-full border-2 border-primary shadow-md"
+            >
+              <img
+                id="userProfilePic"
+                src="https://i.pinimg.com/736x/d3/1a/67/d31a6726c908a3e5e195d1e0b20ece4c.jpg"
+                alt="Profile"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="ml-3">
+              <h2 id="userName" class="text-lg font-bold">Username</h2>
+              <p id="userHandle" class="text-gray-400 text-sm">@username</p>
+            </div>
+          </div>
+        </header>
+
+        <!-- Featured Albums -->
+        <section class="px-4 py-6 mb-4">
+          <h2 class="text-2xl font-bold mb-4 flex items-center">
+            <i class="bx bx-album text-primary mr-2"></i>
+            Featured Albums
+          </h2>
+          <div id="featuredAlbums" class="grid gap-4">
+            <!-- Albums will be loaded here -->
+            <div
+              class="skeleton-loader bg-dark-lighter h-48 rounded-lg animate-pulse"
+            ></div>
+            <div
+              class="skeleton-loader bg-dark-lighter h-48 rounded-lg animate-pulse"
+            ></div>
+            <div
+              class="skeleton-loader bg-dark-lighter h-48 rounded-lg animate-pulse"
+            ></div>
+            <div
+              class="skeleton-loader bg-dark-lighter h-48 rounded-lg animate-pulse"
+            ></div>
+            <div
+              class="skeleton-loader bg-dark-lighter h-48 rounded-lg animate-pulse"
+            ></div>
+            <div
+              class="skeleton-loader bg-dark-lighter h-48 rounded-lg animate-pulse"
+            ></div>
+          </div>
+        </section>
+
+        <!-- Popular Artists -->
+        <section class="px-4 py-2 mb-4">
+          <h2 class="text-2xl font-bold mb-4 flex items-center">
+            <i class="bx bx-music text-primary mr-2"></i>
+            Popular Artists
+          </h2>
+          <div class="relative">
+            <div
+              id="popularArtists"
+              class="artist-scroll flex items-center space-x-5 overflow-x-auto pb-4"
+            >
+              <!-- Artists will be loaded here -->
+              <div
+                class="skeleton-loader min-w-[90px] flex flex-col items-center"
+              >
+                <div
+                  class="w-20 h-20 rounded-full bg-dark-lighter animate-pulse"
+                ></div>
+                <div
+                  class="w-16 h-3 mt-3 bg-dark-lighter rounded animate-pulse"
+                ></div>
+              </div>
+              <div
+                class="skeleton-loader min-w-[90px] flex flex-col items-center"
+              >
+                <div
+                  class="w-20 h-20 rounded-full bg-dark-lighter animate-pulse"
+                ></div>
+                <div
+                  class="w-16 h-3 mt-3 bg-dark-lighter rounded animate-pulse"
+                ></div>
+              </div>
+              <div
+                class="skeleton-loader min-w-[90px] flex flex-col items-center"
+              >
+                <div
+                  class="w-20 h-20 rounded-full bg-dark-lighter animate-pulse"
+                ></div>
+                <div
+                  class="w-16 h-3 mt-3 bg-dark-lighter rounded animate-pulse"
+                ></div>
+              </div>
+              <div
+                class="skeleton-loader min-w-[90px] flex flex-col items-center"
+              >
+                <div
+                  class="w-20 h-20 rounded-full bg-dark-lighter animate-pulse"
+                ></div>
+                <div
+                  class="w-16 h-3 mt-3 bg-dark-lighter rounded animate-pulse"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Discover Songs -->
+        <section class="px-4 py-2 mb-8">
+          <h2 class="text-2xl font-bold mb-4 flex items-center">
+            <i class="bx bx-headphone text-primary mr-2"></i>
+            Discover Songs
+          </h2>
+          <div id="discoverSongs" class="space-y-3">
+            <!-- Songs will be loaded here -->
+            <div
+              class="skeleton-loader bg-dark-lighter h-20 rounded-lg animate-pulse"
+            ></div>
+            <div
+              class="skeleton-loader bg-dark-lighter h-20 rounded-lg animate-pulse"
+            ></div>
+            <div
+              class="skeleton-loader bg-dark-lighter h-20 rounded-lg animate-pulse"
+            ></div>
+            <div
+              class="skeleton-loader bg-dark-lighter h-20 rounded-lg animate-pulse"
+            ></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Album Screen (Initially Hidden) -->
+      <div id="albumScreen" class="hidden z-0 pb-24">
+        <header class="px-4 py-5 flex items-center bg-dark-lighter shadow-md">
+          <button
+            id="backFromAlbum"
+            class="mr-3 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-secondary transition-colors duration-300"
+          >
+            <i class="bx bx-arrow-back"></i>
+          </button>
+          <h2 class="text-xl font-bold">Album</h2>
+          <div class="ml-auto">
+            <button
+              id="shareAlbum"
+              class="text-xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-secondary transition-colors duration-300"
+            >
+              <i class="bx bx-share-alt"></i>
+            </button>
+          </div>
+        </header>
+        <div class="px-4 py-6">
+          <div class="flex flex-col items-center mb-8">
+            <div
+              id="albumCover"
+              class="w-48 h-48 rounded-lg overflow-hidden mb-5 shadow-lg"
+            >
+              <img
+                src=""
+                alt="Album cover"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <h2 id="albumName" class="text-2xl font-bold text-center"></h2>
+            <p id="albumCreator" class="text-gray-400 text-center mt-1"></p>
+            <p
+              id="albumDescription"
+              class="text-gray-300 text-center mt-3 text-sm"
+            ></p>
+            <div id="albumSocial" class="flex space-x-4 mt-4">
+              <!-- Social icons will be added here -->
+            </div>
+          </div>
+          <div class="my-5 border-t border-gray-800"></div>
+          <h3 class="text-xl font-bold mb-4 flex items-center">
+            <i class="bx bx-music text-primary mr-2"></i>
+            Album Songs
+          </h3>
+          <div id="albumSongs" class="space-y-3 mb-8">
+            <!-- Album songs will be loaded here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Artist Screen (Initially Hidden) -->
+      <div id="artistScreen" class="hidden z-0 pb-24">
+        <header class="px-4 py-5 flex items-center bg-dark-lighter shadow-md">
+          <button
+            id="backFromArtist"
+            class="mr-3 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-secondary transition-colors duration-300"
+          >
+            <i class="bx bx-arrow-back"></i>
+          </button>
+          <h2 class="text-xl font-bold">Artist</h2>
+          <div class="ml-auto">
+            <button
+              id="shareArtist"
+              class="text-xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-secondary transition-colors duration-300"
+            >
+              <i class="bx bx-share-alt"></i>
+            </button>
+          </div>
+        </header>
+        <div class="px-4 py-6">
+          <div class="flex flex-col items-center mb-8">
+            <div class="relative mb-5">
+              <div
+                id="artistProfilePic"
+                class="w-36 h-36 rounded-full overflow-hidden border-2 border-primary shadow-lg"
+              >
+                <img
+                  src=""
+                  alt="Artist profile"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <div
+                id="verifiedBadge"
+                class="absolute bottom-0 right-0 bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center text-sm hidden border-2 border-dark shadow-md"
+              >
+                <i class="bx bxs-check-circle"></i>
+              </div>
+            </div>
+            <h2 id="artistName" class="text-2xl font-bold text-center"></h2>
+            <p
+              id="artistDescription"
+              class="text-gray-300 text-center mt-3 text-sm"
+            ></p>
+            <div id="artistSocial" class="flex space-x-4 mt-4">
+              <!-- Social icons will be added here -->
+            </div>
+          </div>
+          <div class="my-5 border-t border-gray-800"></div>
+          <h3 class="text-xl font-bold mb-4 flex items-center">
+            <i class="bx bx-music text-primary mr-2"></i>
+            Popular Songs
+          </h3>
+          <div id="artistSongs" class="space-y-3 mb-8">
+            <!-- Artist songs will be loaded here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Screen (Initially Hidden) -->
+      <div id="searchScreen" class="hidden z-0 pb-24">
+        <header class="px-4 py-5 bg-dark-lighter shadow-md">
+          <div class="flex items-center">
+            <button
+              id="backFromSearch"
+              class="mr-3 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-secondary transition-colors duration-300"
+            >
+              <i class="bx bx-arrow-back"></i>
+            </button>
+            <div class="relative w-full">
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Search Songs"
+                class="w-full bg-dark rounded-full p-3 pl-12 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300 shadow-md"
+              />
+              <i
+                class="bx bx-search absolute left-4 top-1/2 transform -translate-y-1/2 text-primary text-xl"
+              ></i>
+            </div>
+          </div>
+        </header>
+        <div class="px-4 py-6 mb-4">
+          <div id="searchResults" class="space-y-6 mb-2">
+            <!-- Search results will be loaded here -->
+          </div>
+          <div id="noResults" class="hidden py-12 text-center">
+            <i class="bx bx-search-alt text-6xl text-gray-600 mb-4"></i>
+            <p class="text-gray-400 text-lg">No results found</p>
+            <p class="text-gray-500 text-sm mt-2">
+              Try different keywords or check spelling
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Playlist Screen (Initially Hidden) -->
+      <div id="playlistScreen" class="hidden z-0 pb-24">
+        <header class="px-4 py-5 flex items-center bg-dark-lighter shadow-md">
+          <button
+            id="backFromPlaylist"
+            class="mr-3 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-secondary transition-colors duration-300"
+          >
+            <i class="bx bx-arrow-back"></i>
+          </button>
+          <h2 class="text-xl font-bold">Playlists</h2>
+        </header>
+        <div class="px-4 py-6">
+          <h3 class="text-xl font-bold mb-5 flex items-center">
+            <i class="bx bxs-playlist text-primary mr-2"></i>
+            Featured Playlists
+          </h3>
+          <div id="allPlaylists" class="grid gap-4">
+            <!-- Albums will be loaded here -->
+          </div>
+          <div class="py-6 flex justify-center">
+            <button
+              id="loadMorePlaylists"
+              class="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-full text-sm font-medium flex items-center transition duration-300 transform hover:scale-[0.98]"
+            >
+              <i class="bx bx-plus mr-2"></i>
+              Load More
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Screen (Initially Hidden) -->
+      <div id="settingsScreen" class="hidden z-0 pb-24">
+        <header class="px-4 py-5 flex items-center bg-dark-lighter shadow-md">
+          <button
+            id="backFromSettings"
+            class="mr-3 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-secondary transition-colors duration-300"
+          >
+            <i class="bx bx-arrow-back"></i>
+          </button>
+          <h2 class="text-xl font-bold">Settings</h2>
+        </header>
+        <div class="px-4 py-6">
+          <div class="bg-dark-lighter rounded-xl p-5 mb-5 shadow-md">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-semibold text-lg">Theme</h3>
+                <p class="text-xs text-gray-400 mt-1">
+                  Switch between dark and light mode
+                </p>
+              </div>
+              <div class="relative">
+                <input type="checkbox" id="themeToggle" class="sr-only" />
+                <label
+                  for="themeToggle"
+                  class="block w-14 h-7 rounded-full bg-gray-700 cursor-pointer relative"
+                >
+                  <span
+                    class="block absolute left-1 top-1 w-5 h-5 rounded-full bg-white transition-transform duration-300 shadow-md"
+                  ></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-dark-lighter rounded-xl p-5 mb-5 shadow-md">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-semibold text-lg">User Profile</h3>
+                <p class="text-xs text-gray-400 mt-1">
+                  Manage your profile settings
+                </p>
+              </div>
+              <button
+                id="showProfileBtn"
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white shadow-md"
+              >
+                <i class="bx bx-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="text-center mt-12">
+            <div class="flex justify-center items-center mb-4">
+              <div
+                class="w-14 h-14 rounded-full bg-primary flex items-center justify-center shadow-lg"
+              >
+                <i class="bx bx-music text-3xl"></i>
+              </div>
+            </div>
+            <h3 class="text-xl font-bold">XoMusic</h3>
+            <p class="text-gray-400 text-sm mt-1">Version 1.0.0</p>
+          </div>
+          <div class="mt-10 text-center">
+            <button
+              id="logoutBtn"
+              class="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-xl font-semibold shadow-md transition duration-300 flex mx-auto items-center"
+            >
+              <i class="bx bx-log-out mr-2"></i>
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Profile Screen (Initially Hidden) -->
+      <div id="profileScreen" class="hidden z-0 pb-24">
+        <header class="px-4 py-5 flex items-center bg-dark-lighter shadow-md">
+          <button
+            id="backFromProfile"
+            class="mr-3 text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-secondary transition-colors duration-300"
+          >
+            <i class="bx bx-arrow-back"></i>
+          </button>
+          <h2 class="text-xl font-bold">Profile</h2>
+        </header>
+        <div class="px-4 py-6">
+          <div class="flex flex-col items-center mb-8">
+            <div
+              class="w-32 h-32 rounded-full overflow-hidden border-2 border-primary mb-4 shadow-lg"
+            >
+              <img
+                id="profilePic"
+                src=""
+                alt="Profile"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <h2 id="profileName" class="text-2xl font-bold text-center"></h2>
+            <p id="profileHandle" class="text-gray-400 text-center mt-1">
+              @username
+            </p>
+          </div>
+          <div class="mb-6">
+            <div class="bg-dark-lighter rounded-xl p-5 shadow-md">
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="font-semibold text-lg">Bio</h3>
+                <button
+                  id="editBioBtn"
+                  class="text-primary hover:text-primary-dark text-sm font-medium transition duration-300"
+                >
+                  <i class="bx bx-edit mr-1"></i>
+                  Edit
+                </button>
+              </div>
+              <p id="userBio" class="text-gray-300 text-sm">
+                Music lover exploring new sounds.
+              </p>
+              <div id="editBioArea" class="hidden mt-4">
+                <textarea
+                  id="bioInput"
+                  class="w-full bg-dark border border-gray-700 rounded-lg p-3 text-white text-sm mb-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  rows="3"
+                ></textarea>
+                <div class="flex justify-end">
+                  <button
+                    id="saveBioBtn"
+                    class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition duration-300"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Favorites Sections -->
+          <div class="mt-6 mb-8">
+            <!-- Tabs for favorites categories -->
+            <div class="flex border-b border-gray-700 mb-4">
+              <button id="favSongsTab" class="py-2 px-4 text-sm font-medium border-b-2 border-primary text-white">Favorite Songs</button>
+              <button id="favAlbumsTab" class="py-2 px-4 text-sm font-medium border-b-2 border-transparent text-gray-400">Albums</button>
+              <button id="favArtistsTab" class="py-2 px-4 text-sm font-medium border-b-2 border-transparent text-gray-400">Artists</button>
+            </div>
+            
+            <!-- Favorite Songs List -->
+            <div id="favSongsSection" class="space-y-3">
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="font-semibold text-lg flex items-center">
+                  <i class="bx bx-heart text-primary mr-2"></i>
+                  Your Favorite Songs
+                </h3>
+                <span id="favSongsCount" class="text-xs bg-primary/20 text-primary px-2 py-1 rounded-full">0</span>
+              </div>
+              <div id="favSongsList" class="space-y-2">
+                <!-- Favorite songs will be loaded here -->
+                <div class="text-center text-gray-500 text-sm py-4">
+                  <i class="bx bx-heart-circle text-4xl mb-2 opacity-30"></i>
+                  <p>No favorite songs yet</p>
+                  <p class="text-xs mt-1">Add songs to your favorites by clicking the heart icon</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Favorite Albums List -->
+            <div id="favAlbumsSection" class="hidden space-y-3">
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="font-semibold text-lg flex items-center">
+                  <i class="bx bx-heart text-primary mr-2"></i>
+                  Your Favorite Albums
+                </h3>
+                <span id="favAlbumsCount" class="text-xs bg-primary/20 text-primary px-2 py-1 rounded-full">0</span>
+              </div>
+              <div id="favAlbumsList" class="grid grid-cols-2 gap-3">
+                <!-- Favorite albums will be loaded here -->
+                <div class="text-center text-gray-500 text-sm py-4 col-span-2">
+                  <i class="bx bx-album text-4xl mb-2 opacity-30"></i>
+                  <p>No favorite albums yet</p>
+                  <p class="text-xs mt-1">Add albums to your favorites by clicking the heart icon</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Favorite Artists List -->
+            <div id="favArtistsSection" class="hidden space-y-3">
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="font-semibold text-lg flex items-center">
+                  <i class="bx bx-heart text-primary mr-2"></i>
+                  Your Favorite Artists
+                </h3>
+                <span id="favArtistsCount" class="text-xs bg-primary/20 text-primary px-2 py-1 rounded-full">0</span>
+              </div>
+              <div id="favArtistsList" class="flex flex-wrap gap-4 justify-center">
+                <!-- Favorite artists will be loaded here -->
+                <div class="text-center text-gray-500 text-sm py-4 w-full">
+                  <i class="bx bx-user-voice text-4xl mb-2 opacity-30"></i>
+                  <p>No favorite artists yet</p>
+                  <p class="text-xs mt-1">Add artists to your favorites by clicking the heart icon</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-10 text-center">
+            <button
+              id="logoutBtnProfile"
+              class="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-xl font-semibold shadow-md transition duration-300 flex mx-auto items-center"
+            >
+              <i class="bx bx-log-out mr-2"></i>
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Player Screen (Initially Hidden) -->
+      <div id="playerScreen" class="fixed inset-0 z-40 hidden">
+        <header class="px-4 py-5 flex items-center justify-between">
+          <button
+            id="backFromPlayer"
+            class="text-2xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-secondary/30 transition-colors duration-300"
+          >
+            <i class="bx bx-chevron-down"></i>
+          </button>
+          <div>
+            <button
+              id="timerBtn"
+              class="text-xl w-10 h-10 flex items-center justify-center rounded-full hover:bg-secondary/30 transition-colors duration-300"
+            >
+              <i class="bx bx-timer"></i>
+            </button>
+          </div>
+        </header>
+        <div
+          id="sleepTimer"
+          class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center backdrop-blur-sm"
+        >
+          <div
+            class="bg-dark-lighter p-6 rounded-xl w-11/12 max-w-md shadow-2xl"
+          >
+            <h3 class="text-xl font-bold mb-4">Sleep Timer</h3>
+            <div class="grid grid-cols-3 gap-3 mb-5">
+              <button
+                class="timer-option bg-dark hover:bg-primary/80 p-3 rounded-lg transition duration-300"
+                data-time="5"
+              >
+                5 min
+              </button>
+              <button
+                class="timer-option bg-dark hover:bg-primary/80 p-3 rounded-lg transition duration-300"
+                data-time="10"
+              >
+                10 min
+              </button>
+              <button
+                class="timer-option bg-dark hover:bg-primary/80 p-3 rounded-lg transition duration-300"
+                data-time="30"
+              >
+                30 min
+              </button>
+              <button
+                class="timer-option bg-dark hover:bg-primary/80 p-3 rounded-lg transition duration-300"
+                data-time="45"
+              >
+                45 min
+              </button>
+              <button
+                class="timer-option bg-dark hover:bg-primary/80 p-3 rounded-lg transition duration-300"
+                data-time="60"
+              >
+                60 min
+              </button>
+              <button
+                id="cancelTimer"
+                class="bg-red-600 hover:bg-red-700 p-3 rounded-lg transition duration-300"
+              >
+                Off
+              </button>
+            </div>
+            <div class="text-center">
+              <button
+                id="closeTimerModal"
+                class="text-gray-400 hover:text-white transition duration-300 py-2 px-4"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="px-4 flex flex-col items-center justify-between h-[calc(100%-80px)]"
+        >
+          <div
+            class="flex flex-col items-center justify-center flex-grow w-full max-w-md mx-auto"
+          >
+            <div
+              id="playerCover"
+              class="w-64 h-64 rounded-full overflow-hidden mb-10 shadow-xl border-2 border-[#ff4040]"
+            >
+              <img src="" alt="Song cover" class="w-full h-full object-cover" />
+            </div>
+            <div class="text-center mb-10 w-full">
+              <h2
+                id="playerTitle"
+                class="text-2xl font-bold mb-1 truncate"
+              ></h2>
+              <p id="playerArtist" class="text-gray-400 truncate"></p>
+            </div>
+            <div class="w-full mb-6">
+              <div class="flex justify-between text-sm text-gray-400 mb-2">
+                <span id="currentTime">0:00</span>
+                <span id="totalTime">0:00</span>
+              </div>
+              <div class="h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                <div
+                  id="progressBar"
+                  class="h-full bg-primary"
+                  style="width: 0%"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center justify-center space-x-8 mb-16">
+            <button
+              id="shuffleBtn"
+              class="text-2xl text-gray-400 hover:text-white transition duration-300 w-10 h-10 flex items-center justify-center"
+            >
+              <i class="bx bx-shuffle"></i>
+            </button>
+            <button
+              id="prevBtn"
+              class="text-3xl hover:text-primary transition duration-300 w-12 h-12 flex items-center justify-center"
+            >
+              <i class="bx bx-skip-previous"></i>
+            </button>
+            <button
+              id="playPauseBtn"
+              class="w-16 h-16 bg-primary hover:bg-primary-dark rounded-full flex items-center justify-center text-3xl shadow-lg transition duration-300 transform hover:scale-[0.97]"
+            >
+              <i class="bx bx-play"></i>
+            </button>
+            <button
+              id="nextBtn"
+              class="text-3xl hover:text-primary transition duration-300 w-12 h-12 flex items-center justify-center"
+            >
+              <i class="bx bx-skip-next"></i>
+            </button>
+            <button
+              id="repeatBtn"
+              class="text-2xl text-gray-400 hover:text-white transition duration-300 w-10 h-10 flex items-center justify-center"
+            >
+              <i class="bx bx-repeat"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mini Player (Initially Hidden) -->
+      <div id="miniPlayer" class="fixed bottom-16 left-0 right-0 z-30 hidden">
+        <div
+          class="mx-4 rounded-xl p-3 flex items-center shadow-lg"
+          style="
+            background: linear-gradient(to right, #1a1a2e, #16213e);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+          "
+        >
+          <div
+            class="flex items-center flex-grow overflow-hidden mr-2"
+            id="miniPlayerInfo"
+          >
+            <div
+              class="w-12 h-12 min-w-[3rem] rounded-lg overflow-hidden mr-3 shadow-md flex-shrink-0"
+            >
+              <img
+                id="miniCover"
+                src=""
+                alt="Cover"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="mr-2 flex-grow overflow-hidden">
+              <h4
+                id="miniTitle"
+                class="font-semibold text-sm leading-tight truncate whitespace-nowrap overflow-hidden text-ellipsis"
+              ></h4>
+              <p
+                id="miniArtist"
+                class="text-gray-400 text-xs truncate whitespace-nowrap overflow-hidden text-ellipsis"
+              ></p>
+            </div>
+            <div
+              class="flex items-center justify-center audio-visualizer hidden"
+              id="audioVisualizer"
+            >
+              <span class="bg-primary"></span>
+              <span class="bg-primary"></span>
+              <span class="bg-primary"></span>
+              <span class="bg-primary"></span>
+              <span class="bg-primary"></span>
+            </div>
+          </div>
+          <div class="flex items-center min-w-[96px]">
+            <button
+              id="miniPrev"
+              class="w-8 h-8 flex items-center justify-center mr-1 text-xl hover:text-primary transition duration-300"
+            >
+              <i class="bx bx-skip-previous"></i>
+            </button>
+            <button
+              id="miniPlay"
+              class="w-8 h-8 flex items-center justify-center mr-1 text-xl hover:text-primary transition duration-300"
+            >
+              <i class="bx bx-play"></i>
+            </button>
+            <button
+              id="miniNext"
+              class="w-8 h-8 flex items-center justify-center mr-1 text-xl hover:text-primary transition duration-300"
+            >
+              <i class="bx bx-skip-next"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Navigation -->
+      <nav
+        class="fixed bottom-0 left-0 right-0 bg-dark-lighter z-20 h-16 shadow-lg"
+      >
+        <div class="flex justify-around items-center h-full">
+          <button
+            id="homeBtn"
+            class="flex flex-col items-center justify-center text-gray-400 hover:text-gray-200 transition duration-300 mb-2"
+          >
+            <i class="bx bx-home-alt text-2xl"></i>
+            <span class="text-xs mt-1">Home</span>
+          </button>
+          <button
+            id="searchBtn"
+            class="flex flex-col items-center justify-center text-gray-400 hover:text-gray-200 transition duration-300 mb-2"
+          >
+            <i class="bx bx-search text-2xl"></i>
+            <span class="text-xs mt-1">Search</span>
+          </button>
+          <button
+            id="playlistBtn"
+            class="flex flex-col items-center justify-center text-gray-400 hover:text-gray-200 transition duration-300 mb-2"
+          >
+            <i class="bx bxs-playlist text-2xl"></i>
+            <span class="text-xs mt-1">Playlists</span>
+          </button>
+          <button
+            id="settingsBtn"
+            class="flex flex-col items-center justify-center text-gray-400 hover:text-gray-200 transition duration-300 mb-2"
+          >
+            <i class="bx bx-cog text-2xl"></i>
+            <span class="text-xs mt-1">Settings</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="shareModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center">
+      <div class="bg-dark-lighter max-w-md w-[90%] rounded-xl shadow-2xl p-6 mx-4 transform scale-in">
+        <div class="text-right mb-2">
+          <button id="closeShareModal" class="text-gray-400 hover:text-white transition-colors duration-300">
+            <i class="bx bx-x text-2xl"></i>
+          </button>
+        </div>
+        <h3 class="text-xl font-bold mb-4 text-center">Share</h3>
+        
+        <div class="flex flex-col items-center mb-6">
+          <div id="shareImageContainer" class="w-32 h-32 rounded-lg overflow-hidden mb-3 shadow-lg">
+            <img id="shareImage" src="" alt="Share image" class="w-full h-full object-cover">
+          </div>
+          <h4 id="shareTitle" class="font-bold text-lg text-center"></h4>
+          <p id="shareSubtitle" class="text-gray-400 text-sm text-center"></p>
+        </div>
+        
+        <div class="mb-4">
+          <textarea id="shareMessage" class="w-full bg-dark border border-gray-700 rounded-xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm" rows="3" placeholder="Add a message..."></textarea>
+        </div>
+        
+        <div class="grid grid-cols-4 gap-4 mb-6">
+          <button class="share-option flex flex-col items-center">
+            <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center mb-1">
+              <i class="bx bxl-facebook text-2xl"></i>
+            </div>
+            <span class="text-xs">Facebook</span>
+          </button>
+          <button class="share-option flex flex-col items-center">
+            <div class="w-12 h-12 rounded-full bg-sky-500 flex items-center justify-center mb-1">
+              <i class="bx bxl-twitter text-2xl"></i>
+            </div>
+            <span class="text-xs">Twitter</span>
+          </button>
+          <button class="share-option flex flex-col items-center">
+            <div class="w-12 h-12 rounded-full bg-green-600 flex items-center justify-center mb-1">
+              <i class="bx bxl-whatsapp text-2xl"></i>
+            </div>
+            <span class="text-xs">WhatsApp</span>
+          </button>
+          <button id="copyShareLink" class="share-option flex flex-col items-center">
+            <div class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center mb-1">
+              <i class="bx bx-link text-2xl"></i>
+            </div>
+            <span class="text-xs">Copy Link</span>
+          </button>
+        </div>
+        
+        <div class="text-center">
+          <button id="shareAction" class="bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-lg font-medium transition duration-300 flex mx-auto items-center">
+            <i class="bx bx-share-alt mr-2"></i>
+            Share
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="audioPlayer"></audio>
+
+    <!-- Firebase -->
+    <script type="module" src="js/App.js"></script>
+    <!-- Desktop Enhancement Script -->
+    <script src="js/desktop.js"></script>
+    
+    <!-- PWA Install Prompt -->
+    <div id="pwaInstallPrompt" class="fixed top-0 left-0 right-0 bg-primary z-[1000] text-white py-3 px-4 flex items-center justify-between transform -translate-y-full transition-transform duration-300 ease-in-out shadow-lg">
+      <div class="flex items-center">
+        <i class="bx bx-download text-2xl mr-3"></i>
+        <span>Install XoMusic for offline listening and better experience!</span>
+      </div>
+      <div class="flex items-center">
+        <button id="pwaInstallBtn" class="bg-white text-primary font-medium py-1 px-4 rounded-full text-sm mr-3 hover:bg-gray-100 transition duration-300">
+          Install
+        </button>
+        <button id="pwaCloseBtn" class="text-white hover:text-gray-200 transition duration-300">
+          <i class="bx bx-x text-xl"></i>
+        </button>
+      </div>
+    </div>
+    
+    <script>
+      // PWA Install Prompt Logic
+      let deferredPrompt;
+      const pwaInstallPrompt = document.getElementById('pwaInstallPrompt');
+      const pwaInstallBtn = document.getElementById('pwaInstallBtn');
+      const pwaCloseBtn = document.getElementById('pwaCloseBtn');
+      
+      // Check if user has already dismissed or installed
+      const pwaPromptState = localStorage.getItem('pwaPromptState');
+      
+      // Listen for beforeinstallprompt event
+      window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevent the mini-infobar from appearing on mobile
+        e.preventDefault();
+        // Stash the event so it can be triggered later
+        deferredPrompt = e;
+        
+        // Only show if user hasn't explicitly dismissed or installed
+        if (pwaPromptState !== 'dismissed' && pwaPromptState !== 'installed') {
+          // Show the install prompt after a short delay
+          setTimeout(() => {
+            pwaInstallPrompt.classList.remove('-translate-y-full');
+            pwaInstallPrompt.classList.add('translate-y-0');
+          }, 2000);
+        }
+      });
+      
+      // Handle install button click
+      pwaInstallBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        
+        // Show the install prompt
+        deferredPrompt.prompt();
+        
+        // Wait for the user to respond to the prompt
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        // Set state based on outcome
+        if (outcome === 'accepted') {
+          localStorage.setItem('pwaPromptState', 'installed');
+        }
+        
+        // Clear the deferredPrompt variable
+        deferredPrompt = null;
+        
+        // Hide the install prompt
+        pwaInstallPrompt.classList.remove('translate-y-0');
+        pwaInstallPrompt.classList.add('-translate-y-full');
+      });
+      
+      // Handle close button click
+      pwaCloseBtn.addEventListener('click', () => {
+        // Set state to dismissed
+        localStorage.setItem('pwaPromptState', 'dismissed');
+        
+        // Hide the install prompt
+        pwaInstallPrompt.classList.remove('translate-y-0');
+        pwaInstallPrompt.classList.add('-translate-y-full');
+      });
+      
+      // Listen for app installed event
+      window.addEventListener('appinstalled', () => {
+        // Set state to installed
+        localStorage.setItem('pwaPromptState', 'installed');
+        
+        // Hide the install prompt if visible
+        pwaInstallPrompt.classList.remove('translate-y-0');
+        pwaInstallPrompt.classList.add('-translate-y-full');
+        
+        // Clear the deferredPrompt variable
+        deferredPrompt = null;
+      });
+    </script>
+  </body>
+</html>
